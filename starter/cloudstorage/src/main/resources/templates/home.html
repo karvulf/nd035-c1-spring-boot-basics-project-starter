@@ -9,6 +9,7 @@
         <title>Home</title>
     </head>
     <body class="p-3 mb-2 bg-light text-black">
+        <div th:if="${alertMsg}" th:text="${alertMsg}" />
         <div class="container">
             <div id="logoutDiv">
                 <form action="#" th:action="@{/logout}" method="POST">
@@ -49,12 +50,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr th:each="fileName : ${fileNames}" >
                                     <td>
                                         <a target="_blank" class="btn btn-success">View</a>
                                         <a  class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th scope="row">ExampleFile.txt</th>
+                                    <th scope="row" th:text="${fileName}">ExampleFile.txt</th>
                                 </tr>
                                 </tbody>
                             </table>
