@@ -23,7 +23,6 @@ public class HomeController {
     @GetMapping
     public String getHomePage(Model model) {
         model.addAttribute("fileNames", fileService.getFileNames());
-
         return "home";
     }
 }

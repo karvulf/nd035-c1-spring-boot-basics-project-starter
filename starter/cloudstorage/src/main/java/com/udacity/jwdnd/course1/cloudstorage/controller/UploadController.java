@@ -1,21 +1,16 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.File;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @Controller
 @RequestMapping("/upload")
@@ -28,16 +23,9 @@ public class UploadController {
         this.fileService = fileService;
     }
 
-    @GetMapping
-    public String getUpload(Model model) {
-        model.addAttribute(FILENAMES_KEY, fileService.getFileNames());
-        return "home";
-    }
-
     @PostMapping
     public String handleUploadFile(@RequestParam("fileUpload") MultipartFile file,
-                                   RedirectAttributes redirectAttributes, Model model) {
-
+                                   RedirectAttributes redirectAttributes,  Model model) {
         // check if file is empty
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
@@ -49,7 +37,12 @@ public class UploadController {
         String displayedMsg;
 
         if(!hasFileNameStored) {
-            int result = fileService.uploadFile(file);
+            int result = -1;
+            try{
+                result = fileService.uploadFile(file);
+            } catch(Exception e){
+                System.out.println("Error uploading file: " + e.getMessage());
+            }
             if(result > 0) {
                 displayedMsg = "You successfully uploaded " + file.getOriginalFilename() + "!";
                 model.addAttribute(FILENAMES_KEY, fileService.getFileNames());
