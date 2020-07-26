@@ -4,11 +4,16 @@ import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
+import org.apache.commons.io.IOUtils;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,16 +43,24 @@ public class FileService {
 
         if(user != null) {
             File file = new File(
-                    null,
-                    multipartFile.getOriginalFilename(),
-                    multipartFile.getContentType(),
-                    Long.toString(multipartFile.getSize()),
-                    user.getUserId(),
-                    multipartFile.getBytes());
+                null,
+                multipartFile.getOriginalFilename(),
+                multipartFile.getContentType(),
+                Long.toString(multipartFile.getSize()),
+                user.getUserId(),
+                multipartFile.getBytes());
 
             return fileMapper.insert(file);
         }
 
         return -1;
+    }
+
+    public File getFile(String fileName) {
+        return fileMapper.getFile(fileName);
+    }
+
+    public void deleteFile(String fileName) {
+        fileMapper.deleteFile(fileName);
     }
 }

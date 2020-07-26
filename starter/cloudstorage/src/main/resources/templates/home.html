@@ -50,10 +50,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="fileName : ${fileNames}" >
+                                <tr th:each="fileName : ${fileNames}">
                                     <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
+                                        <a th:href="@{'/home/view/' + ${fileName}}" target="_blank" class="btn btn-success">View</a>
+                                        <a th:href="@{'/home/delete/' + ${fileName}}" class="btn btn-danger">Delete</a>
                                     </td>
                                     <th scope="row" th:text="${fileName}">ExampleFile.txt</th>
                                 </tr>
@@ -76,13 +76,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr th:each="note : ${notes}">
                                         <td>
                                             <button type="button" class="btn btn-success">Edit</button>
                                             <a class="btn btn-danger">Delete</a>
                                         </td>
-                                        <th scope="row">Example Note Title</th>
-                                        <td>Example Note Description </td>
+                                        <th scope="row" th:text="${note.noteTitle}">Example Note Title</th>
+                                        <td th:text="${note.noteDescription}">Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -98,7 +98,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" method="POST">
+                                        <form action="#" th:action="@{/home}" th:object="${note}" method="POST">
                                             <input type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>

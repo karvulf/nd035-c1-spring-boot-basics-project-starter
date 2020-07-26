@@ -50,7 +50,7 @@ public class UploadController {
                 displayedMsg = "Oops! Something went wrong when uploading your file " + file.getOriginalFilename() + "!";
             }
         } else {
-            displayedMsg = "The file " + file.getOriginalFilename() + " is already stored!";
+            displayedMsg = "The file with name " + file.getOriginalFilename() + " is already stored!";
         }
 
         redirectAttributes.addFlashAttribute("alertMsg", displayedMsg);
