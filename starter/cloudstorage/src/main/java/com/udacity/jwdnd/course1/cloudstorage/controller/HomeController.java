@@ -36,7 +36,7 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping(value="/view/{fileName}")
+    @GetMapping(value="/file/view/{fileName}")
     public ResponseEntity downloadFile(HttpServletResponse response,
                                              @PathVariable("fileName") String fileName, Model model) throws IOException {
         File file = fileService.getFile(fileName);
@@ -49,7 +49,7 @@ public class HomeController {
                 .body(resource);
     }
 
-    @GetMapping("/delete/{fileName}")
+    @GetMapping("/file/delete/{fileName}")
     public String deleteFile(@PathVariable("fileName") String fileName, Model model) {
         fileService.deleteFile(fileName);
         addData(model);
@@ -58,6 +58,13 @@ public class HomeController {
 
     @PostMapping
     public String addNote(Note note, Model model) {
+        noteService.addNote(note);
+        addData(model);
+        return "home";
+    }
+
+    @PostMapping("/note/edit/{note}")
+    public String editNote(@PathVariable("note")Note note, Model model) {
         noteService.addNote(note);
         addData(model);
         return "home";
