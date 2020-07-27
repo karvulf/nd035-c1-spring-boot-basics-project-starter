@@ -21,9 +21,16 @@ public class NoteService {
         return noteMapper.getAllNotes();
     }
 
-    public int addNote(Note note) {
+    public int addOrUpdateNote(Note note) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         note.setUserId(user.getUserId());
+        if(note.getNoteId() != null) {
+            return noteMapper.update(note);
+        }
         return noteMapper.insert(note);
+    }
+
+    public void deleteNote(Integer noteId) {
+        noteMapper.deleteNote(noteId);
     }
 }
