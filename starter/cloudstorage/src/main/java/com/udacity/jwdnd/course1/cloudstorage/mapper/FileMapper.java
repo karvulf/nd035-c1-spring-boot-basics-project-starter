@@ -19,6 +19,6 @@ public interface FileMapper {
     int insert(File file);
 
     @Delete("DELETE FROM FILES WHERE filename = #{fileName}")
-    void deleteFile(String fileName);
+    int deleteFile(String fileName);
 
 }

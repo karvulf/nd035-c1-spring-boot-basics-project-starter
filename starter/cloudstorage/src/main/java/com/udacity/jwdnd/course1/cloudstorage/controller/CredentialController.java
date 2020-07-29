@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/credential")
@@ -26,14 +27,21 @@ public class CredentialController extends AbstractHomeController{
 
     @PostMapping
     public String addCredential(Credential credential, Model model) {
-        credentialService.addOrUpdateCredential(credential);
+        boolean isUpdating = credential.getCredentialId() != null;
+        int result = credentialService.addOrUpdateCredential(credential);
+        if(isUpdating) {
+            addAlertMsgUpdate(model, result, "credential");
+        } else {
+            addAlertMsgCreate(model, result, "credential");
+        }
         addData(model);
         return "home";
     }
 
     @GetMapping("/delete/{credentialId}")
     public String deleteNote(@PathVariable("credentialId") Integer credentialId, Model model) {
-        credentialService.deleteCredential(credentialId);
+        int result = credentialService.deleteCredential(credentialId);
+        addAlertMsgDelete(model, result, "credential");
         addData(model);
         return "home";
     }

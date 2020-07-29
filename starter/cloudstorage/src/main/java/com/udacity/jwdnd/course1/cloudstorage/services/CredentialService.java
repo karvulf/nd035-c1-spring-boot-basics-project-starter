@@ -33,8 +33,8 @@ public class CredentialService {
         }
     }
 
-    public void deleteCredential(Integer credentialId) {
-        credentialMapper.deleteCredential(credentialId);
+    public int deleteCredential(Integer credentialId) {
+        return credentialMapper.deleteCredential(credentialId);
     }
 
     private int addCredential(Credential credential) {

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/note")
@@ -26,13 +27,20 @@ public class NoteController extends AbstractHomeController {
 
     @PostMapping
     public String addNote(Note note, Model model) {
-        noteService.addOrUpdateNote(note);
+        boolean isUpdating = note.getNoteId() != null;
+        int result = noteService.addOrUpdateNote(note);
+        if(isUpdating) {
+            addAlertMsgUpdate(model, result, "note");
+        } else {
+            addAlertMsgCreate(model, result, "note");
+        }
         addData(model);
         return "home";
     }
     @GetMapping("/delete/{noteId}")
     public String deleteNote(@PathVariable("noteId") Integer noteId, Model model) {
-        noteService.deleteNote(noteId);
+        int result = noteService.deleteNote(noteId);
+        addAlertMsgDelete(model, result, "note");
         addData(model);
         return "home";
     }

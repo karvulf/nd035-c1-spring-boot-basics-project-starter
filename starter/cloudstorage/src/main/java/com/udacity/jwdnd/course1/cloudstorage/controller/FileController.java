@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/file")
@@ -39,7 +40,8 @@ public class FileController extends AbstractHomeController {
 
     @GetMapping("/delete/{fileName}")
     public String deleteFile(@PathVariable("fileName") String fileName, Model model) {
-        fileService.deleteFile(fileName);
+        int result = fileService.deleteFile(fileName);
+        addAlertMsgDelete(model, result, "file");
         addData(model);
         return "home";
     }

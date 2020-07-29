@@ -60,7 +60,7 @@ public class FileService {
         return fileMapper.getFile(fileName);
     }
 
-    public void deleteFile(String fileName) {
-        fileMapper.deleteFile(fileName);
+    public int deleteFile(String fileName) {
+        return fileMapper.deleteFile(fileName);
     }
 }
