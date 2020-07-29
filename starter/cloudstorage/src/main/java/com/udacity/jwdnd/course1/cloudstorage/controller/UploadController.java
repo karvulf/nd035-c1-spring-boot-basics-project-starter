@@ -45,7 +45,8 @@ public class UploadController {
             }
             if(result > 0) {
                 displayedMsg = "You successfully uploaded " + file.getOriginalFilename() + "!";
-                model.addAttribute(FILENAMES_KEY, fileService.getFileNames());
+                User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                model.addAttribute(FILENAMES_KEY, fileService.getFileNames(user.getUserId()));
             } else {
                 displayedMsg = "Oops! Something went wrong when uploading your file " + file.getOriginalFilename() + "!";
             }

@@ -28,8 +28,8 @@ public class FileService {
         this.userMapper = userMapper;
     }
 
-    public ArrayList<String> getFileNames() {
-        return fileMapper.getFileNames();
+    public ArrayList<String> getFileNames(Integer userId) {
+        return fileMapper.getFileNames(userId);
     }
 
     public boolean hasFileName(String fileName) {

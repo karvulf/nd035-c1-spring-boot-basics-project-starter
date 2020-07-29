@@ -10,8 +10,8 @@ import java.util.ArrayList;
 @Mapper
 public interface CredentialMapper {
 
-    @Select("SELECT * FROM CREDENTIALS")
-    ArrayList<Credential> getAllCredentials();
+    @Select("SELECT * FROM CREDENTIALS WHERE userId = #{userId}")
+    ArrayList<Credential> getAllCredentials(Integer userId);
 
     @Insert("INSERT INTO CREDENTIALS (url, username, key, password, userId) " +
             "VALUES(#{url}, #{username}, #{key}, #{password}, #{userId})")
